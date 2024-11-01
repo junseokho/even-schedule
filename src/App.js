@@ -6,6 +6,14 @@ function App() {
     const [message, setMessage] = useState('');
     const [file, setFile] = useState(null);
     const [messages, setMessages] = useState([]); // Store chat messages
+    const [inputValue, setInputValue] = useState('');
+
+    const sendMessage = () => {
+        if (inputValue.trim() !== '') {
+            setMessages([...messages, inputValue]);
+            setInputValue(''); // 입력 필드 초기화
+        }
+    };
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/users') // Example API call
@@ -39,8 +47,8 @@ function App() {
             <div id="chat-window" className="chat-window">
                 <div id="chat-output" className="chat-output">
                     {messages.map((msg, index) => (
-                        <div key={index} className={msg.sender === 'user' ? 'user-message' : 'bot-message'}>
-                            {msg.text}
+                        <div className="message" key={index}>
+                            <div className="user-message">{msg}</div>
                         </div>
                     ))}
                 </div>
@@ -50,13 +58,12 @@ function App() {
                 <label htmlFor="file-input" className="file-input-label">+</label> {/* 더보기 버튼 */}
                 <input
                     type="text"
-                    id="user-input"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
                     placeholder="메세지"
                     className="chat-input"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)} // Update message state
                 />
-                <button id="send-btn" className="send-btn" onClick={handleSend}>↑</button> {/* 전송 버튼 */}
+                <button onClick={sendMessage} className="send-btn">↑</button>
             </div>
         </div>
     );

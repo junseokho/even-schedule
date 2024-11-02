@@ -6,6 +6,8 @@ function ChatBotPage() {
     const [userInput, setUserInput] = useState(''); // 사용자 입력 상태
     const [file, setFile] = useState(null);
     const [messages, setMessages] = useState([]); // 채팅 메시지 저장
+    const [showFileInput, setShowFileInput] = useState(false); // 파일 입력 필드 표시 여부
+
 
     const sendMessage = async () => {
         if (userInput.trim() !== '') {
@@ -50,13 +52,20 @@ function ChatBotPage() {
         // 파일 처리 로직 추가 가능
     };
 
+    const toggleFileInput = () => {
+        setShowFileInput((prev) => !prev); // 파일 입력 필드 표시 상태 토글
+    };
+
     return (
         <div className="chat-container">
             <div className="chat-header">
                 <img src={"/white-chungbuk-mark.png"} alt="Logo" className="header-logo" />
                 <h1>충북대학교 시간표 앱<br/>Even Schedule</h1>
             </div>
-            <div id="chat-window" className="chat-window">
+            <div id="chat-window" className="chat-window" style={{
+                height: showFileInput ? 'calc(100vh - 300px)' : 'calc(100vh - 200px)',
+                transition: 'height 0.3s ease'
+            }}>
                 <div id="chat-output" className="chat-output">
                     {messages.map((msg, index) => (
                         <div className="message" key={index}>
@@ -67,18 +76,23 @@ function ChatBotPage() {
                     ))}
                 </div>
             </div>
-            <div className="input-area">
-                <input type="file" id="file-input" className="file-input" onChange={handleFileChange} />
-                <label htmlFor="file-input" className="file-input-label">+</label>
-                <input
-                    type="text"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    placeholder="메세지"
-                    className="chat-input"
-                    onKeyDown={handleKeyDown} // 엔터 키 감지
-                />
-                <button onClick={sendMessage} className="send-btn">↑</button>
+            <div className="input-area" style={{position: 'relative'}}>
+                <div style={{
+                    marginBottom: showFileInput ? '100px' : '0',
+                    transition: 'margin-bottom 0.3s ease', display: 'flex', alignItems: 'center'}}>
+                    <button onClick={toggleFileInput} className="file-input-label">
+                        {showFileInput ? '-' : '+'}
+                    </button>
+                    <input
+                        type="text"
+                        value={userInput}
+                        onChange={(e) => setUserInput(e.target.value)}
+                        placeholder="메세지"
+                        className="chat-input"
+                        onKeyDown={handleKeyDown} // 엔터 키 감지
+                    />
+                    <button onClick={sendMessage} className="send-btn">↑</button>
+                </div>
             </div>
         </div>
     );

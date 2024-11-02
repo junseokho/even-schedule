@@ -23,7 +23,7 @@ body {
 }
 
 .chat-header {
-    font-family: 'cbnu_regular', sans-serif;
+    font-family: 'cbnu_bold', sans-serif;
     display: flex;
     background-color: #BC1D55;
     align-items: center;
@@ -36,7 +36,7 @@ body {
 .header-logo {
     width: 45px;
     height: auto;
-    margin-left: 70px;
+    margin-left: 60px;
     padding: 2px;
 }
 
@@ -62,13 +62,8 @@ body {
     background-color: #2D2F66;
 }
 
-.chat-output {
-    display: flex;
-    flex-direction: column;
-}
-
 .message {
-    margin: 11px 0;
+    margin: 23px 0;
     display: flex;
     justify-content: flex-end;
     word-break: break-word;
@@ -123,14 +118,28 @@ body {
     font-size: 23px;
 }
 
+.file-input-label:hover {
+    background-color: #cccccc;
+}
+
 .chat-input {
-    flex-grow: 1;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px;
+    height: 10px;
     margin-right: 10px;
     background-color: #D8DFF0;
-    width: 220px;
+    width: 240px;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-top: 5px;
+    box-sizing: border-box;
+    line-height: 15px;
+}
+
+.chat-input::-webkit-scrollbar {
+    width: 0; /* 스크롤바의 너비를 0으로 설정 */
+    height: 0;
+    background: transparent; /* 배경을 투명하게 설정 */
 }
 
 .send-btn {

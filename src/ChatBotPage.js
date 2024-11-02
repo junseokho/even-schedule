@@ -11,10 +11,16 @@ function ChatBotPage() {
 
     const sendMessage = async () => {
         if (userInput.trim() !== '') {
-            // 사용자 메시지를 추가
+            // 메시지 전송 코드
             const userMessage = { text: userInput, sender: 'user' };
-            setMessages((prevMessages) => [...prevMessages, userMessage]); // 메시지 목록에 추가
+            setMessages((prevMessages) => [...prevMessages, userMessage]);
             setUserInput(''); // 입력 필드 초기화
+
+            // 높이 초기화
+            const chatInput = document.querySelector('.chat-input');
+            if (chatInput) {
+                chatInput.style.height = '35px'; // 초기 높이로 설정
+            }
 
             // 백엔드에 사용자 메시지를 전송
             try {
@@ -56,6 +62,14 @@ function ChatBotPage() {
         setShowFileInput((prev) => !prev); // 파일 입력 필드 표시 상태 토글
     };
 
+    useEffect(() => {
+        const textarea = document.getElementById('chat-input');
+        if (textarea) {
+            textarea.style.height = 'auto'; // 높이를 초기화
+            textarea.style.height = `${Math.min(textarea.scrollHeight, 50)}px`; // 내용에 맞게 높이 조정 (최대 100px)
+        }
+    }, [userInput]); // userInput이 변경될 때마다 실행
+
     return (
         <div className="chat-container">
             <div className="chat-header">
@@ -63,7 +77,7 @@ function ChatBotPage() {
                 <h1>충북대학교 시간표 앱<br/>Even Schedule</h1>
             </div>
             <div id="chat-window" className="chat-window" style={{
-                height: showFileInput ? 'calc(100vh - 300px)' : 'calc(100vh - 200px)',
+                height: showFileInput ? 'calc(100vh - 350px)' : 'calc(100vh - 250px)',
                 transition: 'height 0.3s ease'
             }}>
                 <div id="chat-output" className="chat-output">
@@ -79,18 +93,25 @@ function ChatBotPage() {
             <div className="input-area" style={{position: 'relative'}}>
                 <div style={{
                     marginBottom: showFileInput ? '100px' : '0',
-                    transition: 'margin-bottom 0.3s ease', display: 'flex', alignItems: 'center'}}>
+                    transition: 'margin-bottom 0.3s ease', display: 'flex', alignItems: 'center'
+                }}>
                     <button onClick={toggleFileInput} className="file-input-label">
                         {showFileInput ? '-' : '+'}
                     </button>
-                    <input
-                        type="text"
+                    <textarea
                         value={userInput}
                         onChange={(e) => setUserInput(e.target.value)}
                         placeholder="메세지"
                         className="chat-input"
                         onKeyDown={handleKeyDown} // 엔터 키 감지
+                        onInput={(e) => {
+                            e.target.style.height = 'auto'; // 높이 초기화
+                            e.target.style.height = `${e.target.scrollHeight}px`; // 내용에 맞춰 높이 조정
+                        }}
+                        style={{resize: 'none', height: 'auto', maxHeight: '90px'}} // 높이 조절
                     />
+
+
                     <button onClick={sendMessage} className="send-btn">↑</button>
                 </div>
             </div>

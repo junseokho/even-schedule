@@ -19,12 +19,12 @@ repositories {
 
 dependencies {
 	implementation platform('org.springframework.boot:spring-boot-dependencies:3.3.5') // 플랫폼 추가
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Spring Web
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' // DevTools (개발 시 편의)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // 테스트 지원
+	testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 런처
 }
 
 tasks.named('test') {
